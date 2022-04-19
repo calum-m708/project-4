@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'jwt_auth',
     'cloudinary',
     'cards',
 ]
@@ -137,6 +138,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODELS = "jwt_auth.CustomUser"
 
 REST_FRAMEWORK = { 
   'DEFAULT_RENDERER_CLASSES': [ 
