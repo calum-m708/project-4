@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from cards.models import Card
+
 # Create your models here.
 
 class CustomUser(AbstractUser):
-  profile_pic = models.CharField(max_length=200)
+  collection = models.ManyToManyField(Card, related_name="owned_card",default=None)

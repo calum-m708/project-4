@@ -45,3 +45,9 @@ class CredentialsView(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+class UsersView(APIView):
+  def get(self, request):
+    users = User.objects.all()
+    serialized_users = UserSerializer(users, many=True)
+    return Response(serialized_users.data)
