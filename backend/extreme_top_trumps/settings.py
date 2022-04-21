@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'jwt_auth',
     'cloudinary',
     'cards',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'extreme_top_trumps.urls'
@@ -149,6 +152,8 @@ REST_FRAMEWORK = {
     'jwt_auth.authentication.JWTAuthentication', 
   ], 
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 cloudinary.config(
   cloud_name = "dthhn8y5s", 

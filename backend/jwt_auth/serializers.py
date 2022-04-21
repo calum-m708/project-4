@@ -33,4 +33,4 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
       model = User
-      fields = ('username',)
+      fields = ('username','collection')

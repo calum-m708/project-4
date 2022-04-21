@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from django.conf import settings
 import jwt
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CustomUserSerializer
 User = get_user_model()
 
 class RegisterView(APIView):
@@ -49,5 +49,5 @@ class CredentialsView(APIView):
 class UsersView(APIView):
   def get(self, request):
     users = User.objects.all()
-    serialized_users = UserSerializer(users, many=True)
+    serialized_users = CustomUserSerializer(users, many=True)
     return Response(serialized_users.data)
