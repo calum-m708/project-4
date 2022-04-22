@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import UpdateAPIView
 from django.contrib.auth import get_user_model
 from django.conf import settings
 import jwt
@@ -43,8 +44,12 @@ class CredentialsView(APIView):
     permission_classes = [IsAuthenticated,]
 
     def get(self, request):
-        serializer = UserSerializer(request.user)
+        serializer = CustomUserSerializer(request.user)
         return Response(serializer.data)
+
+class UserUpdate(UpdateAPIView):
+  queryset = User.objects.all()
+  serializer_class = CustomUserSerializer
 
 class UsersView(APIView):
   def get(self, request):
