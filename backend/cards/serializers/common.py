@@ -10,3 +10,8 @@ class CardSerializer(serializers.ModelSerializer):
 
 class PopulatedCardSerializer(CardSerializer):
   created_by = CustomUserSerializer()
+
+class MatchSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Match
+    fields = '__all__'

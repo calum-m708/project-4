@@ -25,3 +25,17 @@ class CardCreatedByUser(APIView):
     cards = Card.objects.filter(created_by=request.user.id)
     serialized_cards = PopulatedCardSerializer(cards, many=True)
     return Response(serialized_cards.data)
+
+class MatchList(ListCreateAPIView):
+  queryset = Match.objects.all()
+  serializer_class = MatchSerializer
+
+class MatchUpdateDestroy(RetrieveUpdateDestroyAPIView):
+  queryset = Match.objects.all()
+  serializer_class = MatchSerializer
+
+class MatchByUser(APIView):
+  def get(self, request):
+    matches = Match.objects.filter(player=request.user.id)
+    serialized_matches = MatchSerializer(matches, many=True)
+    return Response(serialized_matches.data)

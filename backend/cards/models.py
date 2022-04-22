@@ -1,14 +1,13 @@
+from urllib import request
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from cloudinary.models import CloudinaryField
-
-# from jwt_auth.models import CustomUser
 
 # Create your models here.
 
 class Match(models.Model):
   player = models.ForeignKey('jwt_auth.CustomUser', related_name='match', on_delete=models.CASCADE)
-  date_time = models.DateTimeField()
+  date_time = models.DateTimeField(auto_now=True)
   won = models.BooleanField()
   cards_won = models.PositiveSmallIntegerField()
 
