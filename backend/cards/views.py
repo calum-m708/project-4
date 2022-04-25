@@ -23,7 +23,7 @@ class CardDetail(RetrieveAPIView):
 class CardCreatedByUser(APIView):
   def get(self, request):
     cards = Card.objects.filter(created_by=request.user.id)
-    serialized_cards = PopulatedCardSerializer(cards, many=True)
+    serialized_cards = CardSerializer(cards, many=True)
     return Response(serialized_cards.data)
 
 class MatchList(ListCreateAPIView):

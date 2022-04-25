@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 import django.contrib.auth.password_validation as validations
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
+from cards.models import Card
+# from cards.serializers.common import CardSerializer
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,7 +32,18 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email', 'password', 'password_confirmation')
 
+class CardSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Card
+    fields = '__all__'
+
+class SimpleCustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = User
+      fields = ('username','collection','id')
+
 class CustomUserSerializer(serializers.ModelSerializer):
+    collection = CardSerializer(many=True)
     class Meta:
       model = User
       fields = ('username','collection','id')
