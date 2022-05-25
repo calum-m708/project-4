@@ -94,6 +94,8 @@ DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': 'cards',
+    'USER': 'postgres',
+    'PASSWORD': 'bazooka5',
     'HOST': 'localhost',
     'PORT': 5432
   }

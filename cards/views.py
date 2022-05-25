@@ -6,7 +6,6 @@ from rest_framework.response import Response
 
 from .models import *
 from .serializers.common import *
-# Create your views here.
 
 class CardList(ListCreateAPIView):
   queryset = Card.objects.all()
