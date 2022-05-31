@@ -9,11 +9,17 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+import django_on_heroku
+from dotenv import load_dotenv
+import dj_database_url
+load_dotenv()
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+
+ENV = str(os.getenv('ENVIRONMENT', 'DEV'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,12 +29,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2ja*%nms@4ucts09*q540k8e+kupwpbn@(!*6c^d$o2y=!qiq2'
-
+if ENV == 'DEV':
+  SECRET_KEY = 'django-insecure-2ja*%nms@4ucts09*q540k8e+kupwpbn@(!*6c^d$o2y=!qiq2'
+else:
+  SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = ENV == 'DEV'
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,11 +49,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'jwt_auth',
     'cloudinary',
     'cards',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +67,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'extreme_top_trumps.urls'
 
@@ -90,8 +101,11 @@ WSGI_APPLICATION = 'extreme_top_trumps.wsgi.application'
     #}
 #}
 
-DATABASES = {
-  'default': {
+DATABASES = {}
+if ENV != 'DEV':
+  DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+else:
+  DATABASES['default'] = {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': 'cards',
     'USER': 'postgres',
@@ -99,7 +113,7 @@ DATABASES = {
     'HOST': 'localhost',
     'PORT': 5432
   }
-}
+
 
 
 # Password validation
@@ -155,10 +169,13 @@ REST_FRAMEWORK = {
   ], 
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = ['https://top-trumps-extreme-edition.herokuapp.com/']
 
 cloudinary.config(
   cloud_name = "dthhn8y5s", 
   api_key = "147595722562894", 
   api_secret = "_4URWgI0tm5boqx4Jfio1Ij5zDY" 
 )
+
+django_on_heroku.settings(locals())
+
