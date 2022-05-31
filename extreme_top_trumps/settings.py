@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
   ], 
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://top-trumps-extreme-edition.herokuapp.com/']
+CSRF_TRUSTED_ORIGINS = ['https://top-trumps-extreme-edition.herokuapp.com']
 
 cloudinary.config(
   cloud_name = "dthhn8y5s", 
